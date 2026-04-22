@@ -3,127 +3,724 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UzhFish — Світ риболовлі в Ужгороді</title>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>UzhFish — Преміальна Екосистема Рибалок Ужгорода</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- ДИЗАЙН-СИСТЕМА "DEEP RIVER DARK MODE" --- */
+        :root {
+            --bg-dark: #020a05;
+            --bg-gradient: linear-gradient(135deg, #05160c 0%, #020a05 100%);
+            --neon-green: #2ecc71;
+            --neon-glow: rgba(46, 204, 113, 0.6);
+            --text-main: #d1e8d9;
+            --text-muted: #8ba895;
+            --glass-bg: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --font-family: 'Montserrat', sans-serif;
+            --ease-out-back: cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        /* --- ГЛОБАЛЬНІ СКИНУТТЯ ТА БАЗА --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        html {
+            scroll-behavior: smooth;
+            font-size: 16px;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            background-image: var(--bg-gradient);
+            background-attachment: fixed;
+            color: var(--text-main);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Фонова текстура - сітка */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: linear-gradient(rgba(46, 204, 113, 0.02) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(46, 204, 113, 0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
+
+        /* Глибоке підсвічування води (Паралакс фон) */
+        .deep-water-light {
+            position: fixed;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100vmax; height: 100vmax;
+            background: radial-gradient(circle, rgba(46, 204, 113, 0.07) 0%, rgba(2, 10, 5, 0) 70%);
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        /* Кастомний скролбар */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb {
+            background: var(--neon-green);
+            border-radius: 10px;
+            box-shadow: 0 0 10px var(--neon-glow);
+        }
+
+        /* Утиліти */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 80px 20px;
+        }
+
+        .neon-text {
+            color: var(--neon-green);
+            text-shadow: 0 0 10px var(--neon-glow);
+        }
+
+        /* --- ХЕДЕР (HERO SECTION) --- */
+        header {
+            height: 80vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo {
+            font-size: 5rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            color: var(--neon-green);
+            text-shadow: 0 0 30px rgba(46, 204, 113, 0.5);
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        /* Анімація друку для слогану */
+        .typewriter h1 {
+            overflow: hidden;
+            border-right: 2px solid var(--neon-green);
+            white-space: nowrap;
+            margin: 0 auto;
+            letter-spacing: 2px;
+            font-weight: 300;
+            font-size: 1.2rem;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing { from { width: 0 } to { width: 100% } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--neon-green); } }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 30px;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-muted);
+            animation: arrow-bounce 2s infinite;
+            cursor: pointer;
+        }
+
+        @keyframes arrow-bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        /* --- СЕКЦІЇ ТА ТИПОГРАФІЯ --- */
+        .section-header {
+            margin-bottom: 60px;
+            max-width: 700px;
+        }
+
+        .section-title {
+            font-weight: 800;
+            font-size: 2.8rem;
+            text-transform: uppercase;
+            line-height: 1.1;
+            margin-bottom: 15px;
+            background: linear-gradient(to right, #fff, var(--text-muted));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            font-weight: 300;
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            border-left: 3px solid var(--neon-green);
+            padding-left: 15px;
+        }
+
+        h3 {
+            font-weight: 700;
+            font-size: 1.6rem;
+            margin-bottom: 10px;
+        }
+
+        /* --- КАРТКИ (GLASSMORPHISM + 3D HOVER) --- */
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: 20px;
+            transition: transform 0.5s var(--ease-out-back), border-color 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            transform-style: preserve-3d; /* Для 3D ефекту */
+        }
+
+        .glass-card:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 20px 50px rgba(46, 204, 113, 0.15);
+            /* Transform додається через JS для 3D нахилу */
+        }
+
+        .card-category {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: var(--neon-green);
+            font-weight: 700;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .card-description {
+            font-weight: 300;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            font-size: 0.95rem;
+        }
+
+        .data-list {
+            list-style: none;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        .data-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .data-list li span:first-child { color: var(--text-muted); font-weight: 300;}
+        .data-list li span:last-child { color: var(--text-main); font-weight: 700;}
+
+        /* --- КНОПКИ --- */
+        .btn-action {
+            background: transparent;
+            border: 1px solid var(--neon-green);
+            color: var(--neon-green);
+            padding: 15px 30px;
+            font-family: var(--font-family);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-top: auto;
+            transition: all 0.3s ease;
+            letter-spacing: 2px;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn-action::before {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 100%; height: 100%;
+            background: var(--neon-green);
+            transition: all 0.3s ease;
+            z-index: -1;
+        }
+
+        .btn-action:hover {
+            color: var(--bg-dark);
+            box-shadow: 0 0 30px var(--neon-glow);
+        }
+
+        .btn-action:hover::before {
+            left: 0;
+        }
+
+        /* --- БЛОК: ТАКТИЧНИЙ АРСЕНАЛ (ЧЕК-ЛИСТИ) --- */
+        .arsenal-section {
+            background: rgba(0,0,0,0.2);
+            border-top: 1px solid var(--glass-border);
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .gear-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gear-box {
+            background: rgba(255,255,255,0.01);
+            border: 1px solid var(--glass-border);
+            padding: 25px;
+            border-radius: 10px;
+        }
+
+        .gear-box h4 {
+            color: var(--neon-green);
+            text-transform: uppercase;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            margin-bottom: 15px;
+            border-bottom: 1px solid var(--glass-border);
+            padding-bottom: 10px;
+        }
+
+        .checklist {
+            list-style: none;
+        }
+
+        .checklist li {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 10px;
+            font-weight: 300;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .checklist li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--neon-green);
+            font-weight: 700;
+        }
+
+        /* --- ТАБЛИЦІ (МОНІТОРИНГ ТА КАЛЕНДАР) --- */
+        .table-wrapper {
+            background: var(--glass-bg);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            margin-bottom: 60px;
+            backdrop-filter: blur(5px);
+        }
+
+        .uzh-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .uzh-table thead th {
+            background: rgba(46, 204, 113, 0.05);
+            color: var(--neon-green);
+            padding: 20px 25px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.75rem;
+            border-bottom: 1px solid var(--glass-border);
+        }
+
+        .uzh-table tbody td {
+            padding: 18px 25px;
+            border-bottom: 1px solid var(--glass-border);
+            font-weight: 300;
+            color: var(--text-muted);
+            transition: background 0.3s ease;
+        }
+
+        .uzh-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .uzh-table tbody tr:hover td {
+            background: rgba(255,255,255,0.02);
+            color: var(--text-main);
+        }
+
+        /* Пульсуючий індикатор LIVE */
+        .live-indicator {
+            display: inline-block;
+            width: 8px; height: 8px;
+            background-color: var(--neon-green);
+            border-radius: 50%;
+            margin-right: 10px;
+            box-shadow: 0 0 10px var(--neon-green);
+            animation: pulse-neon 1.5s infinite;
+        }
+
+        @keyframes pulse-neon {
+            0% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(46, 204, 113, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
+        }
+
+        /* Рейтинг активності в календарі */
+        .activity-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 2px;
+            position: relative;
+            width: 100px;
+        }
+
+        .activity-fill {
+            position: absolute;
+            top: 0; left: 0; height: 100%;
+            background: var(--neon-green);
+            border-radius: 2px;
+            box-shadow: 0 0 5px var(--neon-glow);
+        }
+
+        /* --- АНІМАЦІЇ ПОЯВИ (REVEAL) --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s cubic-bezier(0.215, 0.61, 0.355, 1);
+        }
+
+        .reveal.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- ФУТЕР --- */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            border-top: 1px solid var(--glass-border);
+            background: rgba(0,0,0,0.3);
+            position: relative;
+        }
+
+        .footer-logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            letter-spacing: 5px;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .footer-credits {
+            font-size: 0.8rem;
+            color: #555;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+    </style>
 </head>
 <body>
 
+    <div class="deep-water-light" id="parallaxBg"></div>
+
     <header>
-        <div class="logo">🎣 <span>Uzh</span>Fish</div>
-        <nav>
-            <a href="#about">Про нас</a>
-            <a href="#fishes">Риба</a>
-            <a href="#tackle">Снасті</a>
-            <a href="#locations">Локації</a>
-            <a href="#gallery">Галерея</a>
-        </nav>
+        <div class="logo">UzhFish</div>
+        <div class="typewriter">
+            <h1>ІНТЕРАКТИВНИЙ ГІД РИБАЛКИ ЗАКАРПАТТЯ</h1>
+        </div>
+        <div class="scroll-down" onclick="document.getElementById('content').scrollIntoView();">
+            Вниз<br>▽
+        </div>
     </header>
 
-    <section class="hero">
-        <div class="hero-content">
-            <h1>Мистецтво закарпатської риболовлі</h1>
-            <p>Від тихих заплав Ужа до глибоких вод кар'єрів. Твій ідеальний улов починається тут.</p>
-            <a href="#locations" class="btn">Знайти місце</a>
+    <main class="container" id="content">
+        
+        <section class="reveal">
+            <div class="section-header">
+                <h2 class="section-title">Локації<br>Гарячі Точки</h2>
+                <p class="section-subtitle">Детальний аналіз водойм Ужгорода та специфіка лову пріоритетних видів риб.</p>
+            </div>
+
+            <div class="grid-3">
+                
+                <div class="glass-card tilt-card">
+                    <span class="card-category">Річка • Ужhorod</span>
+                    <h3>Набережна Незалежності</h3>
+                    <p class="card-description">Урбан-фішинг у серці міста. Швидка течія, кам'янисте дно, численні перекати біля мостів.</p>
+                    <ul class="data-list">
+                        <li><span>Головна ціль:</span> <span>Клень (Головень)</span></li>
+                        <li><span>Метод:</span> <span>Спінінг (Light)</span></li>
+                        <li><span>Найкращий час:</span> <span>Ранок/Захід</span></li>
+                        <li><span>Складність:</span> <span>Висока (зацепи)</span></li>
+                    </ul>
+                    <button class="btn-action">Аналіз точок</button>
+                </div>
+
+                <div class="glass-card tilt-card">
+                    <span class="card-category">Озеро • Глибина</span>
+                    <h3>Радванський кар'єр</h3>
+                    <p class="card-description">Техногенна водойма з кришталевою водою. Глибини до 25 метрів. Потребує делікатної снасті.</p>
+                    <ul class="data-list">
+                        <li><span>Головна ціль:</span> <span>Трофейна Щука</span></li>
+                        <li><span>Метод:</span> <span>Джиг / Твічінг</span></li>
+                        <li><span>Прозорість:</span> <span>Екстремальна</span></li>
+                        <li><span>Термоклин:</span> <span>Виражений</span></li>
+                    </ul>
+                    <button class="btn-action">Прогноз для хижака</button>
+                </div>
+
+                <div class="glass-card tilt-card">
+                    <span class="card-category">Річка • Заводь</span>
+                    <h3>Боздошський Парк</h3>
+                    <p class="card-description">Тиха ділянка річки за пішохідним мостом. Мулисте дно, багато водної рослинності.</p>
+                    <ul class="data-list">
+                        <li><span>Головна ціль:</span> <span>Короп, Карась</span></li>
+                        <li><span>Метод:</span> <span>Фідер / Flat</span></li>
+                        <li><span>Прикормка:</span> <span>Солодка/Фруктова</span></li>
+                        <li><span>Сезон:</span> <span>Травень - Вересень</span></li>
+                    </ul>
+                    <button class="btn-action">Чекап секторів</button>
+                </div>
+
+            </div>
+        </section>
+    </main>
+
+    <section class="arsenal-section reveal">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Тактичний<br>Арсенал</h2>
+                <p class="section-subtitle">Перевірені комплекти снастей та приманок для специфічних умов річки Уж.</p>
+            </div>
+
+            <div class="grid-3 gear-grid">
+                
+                <div class="gear-box">
+                    <h4>Спінінг на Щуку (Уж/Кар'єр)</h4>
+                    <ul class="checklist">
+                        <li>Вудилище: Fast, тест 5-21г</li>
+                        <li>Котушка: 2500-3000</li>
+                        <li>Шнур: PE #0.8 - #1.0</li>
+                        <li>Поводок: Флюорокарбон 0.5mm+ або Титан</li>
+                        <li>Приманки: Воблери мінноу 90-110мм, Віброхвости 3-4 дюйми</li>
+                    </ul>
+                </div>
+
+                <div class="gear-box">
+                    <h4>Ультралайт на Кленя (Перекати)</h4>
+                    <ul class="checklist">
+                        <li>Вудилище: Moderate-Fast, тест 1-7г</li>
+                        <li>Котушка: 1000-2000</li>
+                        <li>Шнур/Ліска: PE #0.3 або монка 0.14mm</li>
+                        <li>Поводок: Необов'язковий (флюор 0.16)</li>
+                        <li>Приманки: Кренки (Chubby), Мікроколебалки, "Таркани"</li>
+                    </ul>
+                </div>
+
+                <div class="gear-box">
+                    <h4>Расходники (Must Have)</h4>
+                    <ul class="checklist">
+                        <li>Екстрактор / Зівник</li>
+                        <li>Ліпгрип або підсак (силікон)</li>
+                        <li>Поляризаційні окуляри (важливо для Ужа)</li>
+                        <li>Запас гачків та чебурашок</li>
+                        <li>Спрей від комарів</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </section>
 
-    <section id="about" class="section">
-        <h2>Філософія риболовлі</h2>
-        <p class="section-desc">Для нас риболовля — це не просто спорт, це спосіб перезавантажитись, почути шепіт річки та відчути справжній азарт боротьби з хижаком.</p>
-    </section>
+    <main class="container">
+        
+        <section class="reveal">
+            <div class="section-header">
+                <h2 class="section-title">Гідрологія<br>& Моніторинг</h2>
+                <p class="section-subtitle">Оперативні дані про стан води. Оновлюється автоматично (демо).</p>
+            </div>
 
-    <section id="fishes" class="section">
-        <h2 class="title-bg">Мешканці наших вод</h2>
-        <div class="cards-grid">
-            <div class="card reveal">
-                <div class="card-icon">🐟</div>
-                <h3>Короп</h3>
-                <p>Хитрий та сильний мешканець озер. Любить солодкі наживки та вимагає терпіння.</p>
+            <div class="table-wrapper">
+                <table class="uzh-table">
+                    <thead>
+                        <tr>
+                            <th>Пост спостереження</th>
+                            <th>Рівень (см)</th>
+                            <th>Температура Water</th>
+                            <th>Прозорість</th>
+                            <th>Статус <span class="neon-text">(LIVE)</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Уж (Великий Березний) - Верх</td>
+                            <td>+10 <span class="neon-text">↑</span></td>
+                            <td>11.2°C</td>
+                            <td>Середня</td>
+                            <td><span class="live-indicator"></span>Йде каламуть</td>
+                        </tr>
+                        <tr>
+                            <td>Уж (Підзамковий міст) - Центр</td>
+                            <td>Стабільно</td>
+                            <td>13.5°C</td>
+                            <td>Оптимальна</td>
+                            <td><span class="live-indicator"></span>Активний клень</td>
+                        </tr>
+                        <tr>
+                            <td>Дериваційний канал (Оріховиця)</td>
+                            <td>-5 <span style="color: #e74c3c">↓</span></td>
+                            <td>14.0°C</td>
+                            <td>Висока</td>
+                            <td><span class="live-indicator"></span>Кормиться карась</td>
+                        </tr>
+                        <tr>
+                            <td>Радванський кар'єр (Глибина)</td>
+                            <td>N/A</td>
+                            <td>15.2°C (поверхня)</td>
+                            <td>Максимальна</td>
+                            <td><span class="live-indicator"></span>Щука в ямах</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="card reveal">
-                <div class="card-icon">🦈</div>
-                <h3>Щука</h3>
-                <p>Королева засідок. Найкраще йде на спінінг в заростях очерету на Ужі.</p>
-            </div>
-            <div class="card reveal">
-                <div class="card-icon">🌊</div>
-                <h3>Клень (Головень)</h3>
-                <p>Господар швидкої течії. Символ риболовлі на річці Уж у межах міста.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section id="tackle" class="section dark-bg">
-        <h2>Снасті та Наживки</h2>
-        <div class="cards-grid">
-            <div class="card reveal">
-                <h3>Спінінг</h3>
-                <p><strong>Наживка:</strong> Силікон, воблери.<br>Для активного пошуку хижака.</p>
+        <section class="reveal">
+            <div class="section-header">
+                <h2 class="section-title">Сезонний<br>Ритм</h2>
+                <p class="section-subtitle">Річний календар активності основних видів риб в басейні річки Уж.</p>
             </div>
-            <div class="card reveal">
-                <h3>Фідер</h3>
-                <p><strong>Наживка:</strong> Опариш, кукурудза.<br>Для донного лову великої мирної риби.</p>
-            </div>
-            <div class="card reveal">
-                <h3>Нахлист</h3>
-                <p><strong>Наживка:</strong> Штучні мушки.<br>Елітна ловля головеня на перекатах.</p>
-            </div>
-        </div>
-    </section>
 
-    <section id="locations" class="section">
-        <h2>Рибні місця Ужгорода</h2>
-        <div class="cards-grid">
-            <div class="card reveal location-card">
-                <h3>Боздошський парк</h3>
-                <p>Річкові перекати. Ідеально для вечірнього спінінга прямо в центрі міста.</p>
+            <div class="table-wrapper">
+                <table class="uzh-table">
+                    <thead>
+                        <tr>
+                            <th>Місяць</th>
+                            <th>Щука</th>
+                            <th>Клень</th>
+                            <th>Короп</th>
+                            <th>Особливості місяця</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Березень</td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 80%"></div></div></td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 20%"></div></div></td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 10%"></div></div></td>
+                            <td>Переднерестовий жор щуки, паводок.</td>
+                        </tr>
+                        <tr>
+                            <td>Травень</td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 40%"></div></div></td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 90%"></div></div></td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 60%"></div></div></td>
+                            <td>Виліт хруща. Активний лов кленя на сплеск.</td>
+                        </tr>
+                        <tr>
+                            <td>Липень</td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 20%"></div></div></td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 70%"></div></div></td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 80%"></div></div></td>
+                            <td>Спека. Лов вночі або на світанку. Термоклин на кар'єрі.</td>
+                        </tr>
+                        <tr>
+                            <td>Жовтень</td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 95%"></div></div></td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 50%"></div></div></td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 30%"></div></div></td>
+                            <td>Осінній жор хижака. Мирна риба скочується на ями.</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="card reveal location-card">
-                <h3>Радванський кар'єр</h3>
-                <p>Глибока і чиста вода. Тут мешкають справжні трофейні окуні та щуки.</p>
-            </div>
-            <div class="card reveal location-card">
-                <h3>Оріховиця</h3>
-                <p>Заміська тиша та ставки, де можна спокійно посидіти з фідером на коропа.</p>
-            </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="section">
-        <div class="weather-widget">
-            <h3>Прогноз для рибалки</h3>
-            <div class="weather-main">+19°C</div>
-            <p>Вітер: Пд-Зх 2.4 м/с | Тиск: Стабільний</p>
-            <span class="badge">🎣 Клює відмінно!</span>
-        </div>
-    </section>
-
-   <section id="gallery" class="section">
-        <h2>Наші Трофеї</h2>
-        <div class="gallery">
-            <div class="gallery-item">
-                <img src="C:\Users\SystemX\Desktop\123123312\Щука.jpg" alt="Трофейна щука">
-            </div>
-            <div class="gallery-item">
-                <img src="C:\Users\SystemX\Desktop\123123312\Дзеркальний Короп.jpg" alt="Дзеркальний короп">
-            </div>
-            <div class="gallery-item">
-                <img src="C:\Users\SystemX\Desktop\123123312\Форель.png" alt="Форель у підсаці">
-            </div>
-            <div class="gallery-item">
-                <img src="C:\Users\SystemX\Desktop\123123312\Клень.jpg" alt="Вдалий вилов">
-            </div>
-        </div>
-    </section>
+    </main>
 
     <footer>
-        <p>© 2026 UzhFish. Створено з любов'ю до природи Закарпаття.</p>
-        <p>Ні луски, ні хвоста!</p>
+        <div class="container">
+            <span class="footer-logo">UzhFish</span>
+            <p class="footer-credits">
+                &copy; 2026 UzhFish Digital. Strict Codebase v2.0.<br>
+                Тільки реальна риболовля. Жодного дайвінгу. Зроблено в Ужгороді.
+            </p>
+        </div>
     </footer>
 
-    <button id="backToTop" title="Нагору">↑</button>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Reveal on Scroll (Intersection Observer)
+            const observerOptions = {
+                threshold: 0.15,
+                rootMargin: '0px 0px -100px 0px'
+            };
 
-    <script src="script.js"></script>
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => {
+                observer.observe(el);
+            });
+
+            // 2. Паралакс фонового підсвічування
+            const parallaxBg = document.getElementById('parallaxBg');
+            document.addEventListener('mousemove', (e) => {
+                const x = (e.clientX / window.innerWidth) - 0.5;
+                const y = (e.clientY / window.innerHeight) - 0.5;
+                
+                parallaxBg.style.transform = `translate(calc(-50% + ${x * 50}px), calc(-50% + ${y * 50}px))`;
+            });
+
+            // 3. 3D Hover ефект для карток
+            const cards = document.querySelectorAll('.tilt-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    
+                    const centerX = rect.width / 2;
+                    const centerY = rect.height / 2;
+                    
+                    const rotateX = (y - centerY) / 10;
+                    const rotateY = (centerX - x) / 10;
+                    
+                    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
+                });
+                
+                card.addEventListener('mouseleave', () => {
+                    card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
+                });
+            });
+        });
+    </script>
+
 </body>
 </html>
