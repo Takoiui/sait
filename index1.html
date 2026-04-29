@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UzhFish — Преміальна Екосистема Рибалок Ужгорода</title>
+    <title>UzhFish — Преміальна Екосистема Рибалок</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700;800&display=swap" rel="stylesheet">
     
     <style>
@@ -145,7 +145,7 @@
 
         /* --- СЕКЦІЇ ТА ТИПОГРАФІЯ --- */
         .section-header {
-            margin-bottom: 60px;
+            margin-bottom: 40px;
             max-width: 700px;
         }
 
@@ -177,7 +177,7 @@
         /* --- КАРТКИ (GLASSMORPHISM + 3D HOVER) --- */
         .grid-3 {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
             gap: 30px;
             margin-bottom: 80px;
         }
@@ -193,13 +193,12 @@
             position: relative;
             display: flex;
             flex-direction: column;
-            transform-style: preserve-3d; /* Для 3D ефекту */
+            transform-style: preserve-3d;
         }
 
         .glass-card:hover {
             border-color: var(--neon-green);
             box-shadow: 0 20px 50px rgba(46, 204, 113, 0.15);
-            /* Transform додається через JS для 3D нахилу */
         }
 
         .card-category {
@@ -328,13 +327,15 @@
             background: var(--glass-bg);
             border-radius: 20px;
             border: 1px solid var(--glass-border);
-            overflow: hidden;
+            overflow-x: auto;
             margin-bottom: 60px;
             backdrop-filter: blur(5px);
+            -webkit-overflow-scrolling: touch;
         }
 
         .uzh-table {
             width: 100%;
+            min-width: 700px;
             border-collapse: collapse;
             text-align: left;
             font-size: 0.9rem;
@@ -359,10 +360,6 @@
             transition: background 0.3s ease;
         }
 
-        .uzh-table tbody tr:last-child td {
-            border-bottom: none;
-        }
-
         .uzh-table tbody tr:hover td {
             background: rgba(255,255,255,0.02);
             color: var(--text-main);
@@ -385,7 +382,6 @@
             100% { box-shadow: 0 0 0 0 rgba(46, 204, 113, 0); }
         }
 
-        /* Рейтинг активності в календарі */
         .activity-bar {
             height: 4px;
             background: rgba(255,255,255,0.05);
@@ -414,6 +410,53 @@
             transform: translateY(0);
         }
 
+        /* --- МОДАЛЬНЕ ВІКНО --- */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(8px);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 600px;
+            padding: 40px;
+            border: 1px solid var(--neon-green);
+            animation: modalAppear 0.4s var(--ease-out-back);
+        }
+
+        @keyframes modalAppear {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px; right: 20px;
+            color: var(--text-muted);
+            font-size: 28px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .close-modal:hover { color: var(--neon-green); }
+
+        #modalBody {
+            margin-top: 20px;
+            color: var(--text-main);
+            line-height: 1.8;
+        }
+
+        #modalBody ul { list-style: none; padding: 0; }
+        #modalBody li { margin-bottom: 10px; border-left: 2px solid var(--neon-green); padding-left: 15px; }
+
         /* --- ФУТЕР --- */
         footer {
             text-align: center;
@@ -428,15 +471,17 @@
             font-size: 1.5rem;
             color: var(--text-muted);
             letter-spacing: 5px;
-            margin-bottom: 15px;
             display: block;
         }
 
-        .footer-credits {
-            font-size: 0.8rem;
-            color: #555;
-            font-weight: 300;
-            letter-spacing: 1px;
+        /* --- МЕДІА-ЗАПИТИ ДЛЯ МОБІЛЬНИХ --- */
+        @media (max-width: 768px) {
+            .logo { font-size: 3rem; letter-spacing: 5px; }
+            .section-title { font-size: 2.2rem; }
+            .container { padding: 40px 15px; }
+            header { height: 60vh; }
+            .glass-card { padding: 30px 20px; }
+            .typewriter h1 { font-size: 1rem; }
         }
     </style>
 </head>
@@ -447,7 +492,7 @@
     <header>
         <div class="logo">UzhFish</div>
         <div class="typewriter">
-            <h1>ІНТЕРАКТИВНИЙ ГІД РИБАЛКИ ЗАКАРПАТТЯ</h1>
+            <h1>ЕКСКЛЮЗИВНИЙ ГІД ОЗЕРАМИ ЗАКАРПАТТЯ</h1>
         </div>
         <div class="scroll-down" onclick="document.getElementById('content').scrollIntoView();">
             Вниз<br>▽
@@ -456,53 +501,155 @@
 
     <main class="container" id="content">
         
+        
         <section class="reveal">
             <div class="section-header">
-                <h2 class="section-title">Локації<br>Гарячі Точки</h2>
-                <p class="section-subtitle">Детальний аналіз водойм Ужгорода та специфіка лову пріоритетних видів риб.</p>
+                <h2 class="section-title">Озера<br>Топ Локації</h2>
+                <p class="section-subtitle">Детальний аналіз закритих водойм та специфіка лову в умовах стоячої води.</p>
             </div>
 
+            <section class="reveal">
+    <div class="container" style="padding-top: 0; padding-bottom: 40px;">
+        <div class="glass-card tilt-card weather-widget-container">
+            <div class="weather-main-info">
+                <div>
+                    <span class="card-category">Поточний стан • Ужгород</span>
+                    <h3 id="weather-desc">Завантаження...</h3>
+                </div>
+                <div class="temp-display">
+                    <span id="temp-val">--</span><span class="unit">°C</span>
+                </div>
+            </div>
+            
+            <div class="weather-grid-details">
+                <div class="weather-item">
+                    <span class="label">Вітер</span>
+                    <span class="value" id="wind-speed">--</span> <span class="unit">м/с</span>
+                </div>
+                <div class="weather-item">
+                    <span class="label">Тиск</span>
+                    <span class="value" id="pressure-val">--</span> <span class="unit">мм</span>
+                </div>
+                <div class="weather-item">
+                    <span class="label">Вологість</span>
+                    <span class="value" id="humidity-val">--</span> <span class="unit">%</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .weather-widget-container {
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+    .weather-main-info {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .temp-display {
+        font-size: 3.5rem;
+        font-weight: 800;
+        color: var(--neon-green);
+        text-shadow: 0 0 20px var(--neon-glow);
+    }
+    .temp-display .unit {
+        font-size: 1.5rem;
+        vertical-align: top;
+        margin-top: 10px;
+        display: inline-block;
+    }
+    .weather-grid-details {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        border-top: 1px solid var(--glass-border);
+        padding-top: 20px;
+    }
+    .weather-item { text-align: center; }
+    .weather-item .label {
+        display: block;
+        font-size: 0.7rem;
+        text-transform: uppercase;
+        color: var(--text-muted);
+        letter-spacing: 1px;
+        margin-bottom: 5px;
+    }
+    .weather-item .value {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: var(--text-main);
+    }
+    #weather-desc { text-transform: capitalize; }
+</style>
+
+<script>
+    const API_KEY = '368ffcec4e14f702b5a17292613ea9c3'; 
+    const CITY = 'Uzhhorod';
+    const WEATHER_URL = `https://api.openweathermap.org/data/2.5/weather?q=${CITY}&appid=${API_KEY}&units=metric&lang=uk`;
+
+    async function updateWeather() {
+        try {
+            const response = await fetch(WEATHER_URL);
+            const data = await response.json();
+            if (data.cod === 200) {
+                document.getElementById('temp-val').innerText = Math.round(data.main.temp);
+                document.getElementById('weather-desc').innerText = data.weather[0].description;
+                document.getElementById('wind-speed').innerText = data.wind.speed;
+                document.getElementById('humidity-val').innerText = data.main.humidity;
+                const pressureMm = Math.round(data.main.pressure * 0.750062);
+                document.getElementById('pressure-val').innerText = pressureMm;
+            }
+        } catch (err) {
+            document.getElementById('weather-desc').innerText = "Помилка оновлення";
+        }
+    }
+    updateWeather();
+    setInterval(updateWeather, 900000);
+</script>
             <div class="grid-3">
-                
                 <div class="glass-card tilt-card">
-                    <span class="card-category">Річка • Ужhorod</span>
-                    <h3>Набережна Незалежності</h3>
-                    <p class="card-description">Урбан-фішинг у серці міста. Швидка течія, кам'янисте дно, численні перекати біля мостів.</p>
+                    <span class="card-category">Озеро • Лагуна</span>
+                    <h3>Озеро Лагуна</h3>
+                    <p class="card-description">Мальовнича водойма з багатою рослинністю. Ідеальне місце для спокійного лову біля очерету.</p>
                     <ul class="data-list">
-                        <li><span>Головна ціль:</span> <span>Клень (Головень)</span></li>
-                        <li><span>Метод:</span> <span>Спінінг (Light)</span></li>
-                        <li><span>Найкращий час:</span> <span>Ранок/Захід</span></li>
-                        <li><span>Складність:</span> <span>Висока (зацепи)</span></li>
+                        <li><span>Головна ціль:</span> <span>Лин, Лящ</span></li>
+                        <li><span>Метод:</span> <span>Поплавок / Match</span></li>
+                        <li><span>Найкращий час:</span> <span>Світанок</span></li>
+                        <li><span>Складність:</span> <span>Низька (релакс)</span></li>
                     </ul>
-                    <button class="btn-action">Аналіз точок</button>
+                    <button class="btn-action"> Схеми закиду</button>
                 </div>
 
                 <div class="glass-card tilt-card">
-                    <span class="card-category">Озеро • Глибина</span>
-                    <h3>Радванський кар'єр</h3>
-                    <p class="card-description">Техногенна водойма з кришталевою водою. Глибини до 25 метрів. Потребує делікатної снасті.</p>
+                    <span class="card-category">Озеро • Велика вода</span>
+                    <h3>Великі Береги</h3>
+                    <p class="card-description">Велика дзеркальна площа. Відома своїми глибинними бровками та трофейними екземплярами.</p>
                     <ul class="data-list">
-                        <li><span>Головна ціль:</span> <span>Трофейна Щука</span></li>
-                        <li><span>Метод:</span> <span>Джиг / Твічінг</span></li>
-                        <li><span>Прозорість:</span> <span>Екстремальна</span></li>
-                        <li><span>Термоклин:</span> <span>Виражений</span></li>
+                        <li><span>Головна ціль:</span> <span>Трофейний Короп</span></li>
+                        <li><span>Метод:</span> <span>Boilie Fishing</span></li>
+                        <li><span>Прозорість:</span> <span>Висока</span></li>
+                        <li><span>Дистанція:</span> <span>Дальня (80м+)</span></li>
                     </ul>
-                    <button class="btn-action">Прогноз для хижака</button>
+                    <button class="btn-action"> Батиметрія (Глибини)</button>
                 </div>
 
                 <div class="glass-card tilt-card">
-                    <span class="card-category">Річка • Заводь</span>
-                    <h3>Боздошський Парк</h3>
-                    <p class="card-description">Тиха ділянка річки за пішохідним мостом. Мулисте дно, багато водної рослинності.</p>
+                    <span class="card-category">Озеро • Гірське</span>
+                    <h3>Озеро Драгово</h3>
+                    <p class="card-description">Водойма в передгір'ї з чистою холодною водою. Потребує особливого підходу до прикормки.</p>
                     <ul class="data-list">
-                        <li><span>Головна ціль:</span> <span>Короп, Карась</span></li>
-                        <li><span>Метод:</span> <span>Фідер / Flat</span></li>
-                        <li><span>Прикормка:</span> <span>Солодка/Фруктова</span></li>
-                        <li><span>Сезон:</span> <span>Травень - Вересень</span></li>
+                        <li><span>Головна ціль:</span> <span>Білий Амур</span></li>
+                        <li><span>Method:</span> <span>Фідер / Flat</span></li>
+                        <li><span>Прикормка:</span> <span>Зернова суміш</span></li>
+                        <li><span>Сезон:</span> <span>Червень - Серпень</span></li>
                     </ul>
-                    <button class="btn-action">Чекап секторів</button>
+                    <button class="btn-action"> Рецепт прикормки</button>
                 </div>
-
             </div>
         </section>
     </main>
@@ -511,13 +658,12 @@
         <div class="container">
             <div class="section-header">
                 <h2 class="section-title">Тактичний<br>Арсенал</h2>
-                <p class="section-subtitle">Перевірені комплекти снастей та приманок для специфічних умов річки Уж.</p>
+                <p class="section-subtitle">Перевірені комплекти снастей та приманок для специфічних умов.</p>
             </div>
 
             <div class="grid-3 gear-grid">
-                
                 <div class="gear-box">
-                    <h4>Спінінг на Щуку (Уж/Кар'єр)</h4>
+                    <h4>Спінінг на Щуку (Кар'єр)</h4>
                     <ul class="checklist">
                         <li>Вудилище: Fast, тест 5-21г</li>
                         <li>Котушка: 2500-3000</li>
@@ -528,13 +674,13 @@
                 </div>
 
                 <div class="gear-box">
-                    <h4>Ультралайт на Кленя (Перекати)</h4>
+                    <h4>Фідер (Короп/Амур)</h4>
                     <ul class="checklist">
-                        <li>Вудилище: Moderate-Fast, тест 1-7г</li>
-                        <li>Котушка: 1000-2000</li>
-                        <li>Шнур/Ліска: PE #0.3 або монка 0.14mm</li>
-                        <li>Поводок: Необов'язковий (флюор 0.16)</li>
-                        <li>Приманки: Кренки (Chubby), Мікроколебалки, "Таркани"</li>
+                        <li>Вудилище: Heavy, тест до 120г</li>
+                        <li>Котушка: 4000-5000 з байтраннером</li>
+                        <li>Шнур/Ліска: Монка 0.28mm+</li>
+                        <li>Оснащення: Flat Method або Inline</li>
+                        <li>Приманки: Бойли (Pop-up, Wafters), Пелетс</li>
                     </ul>
                 </div>
 
@@ -543,8 +689,8 @@
                     <ul class="checklist">
                         <li>Екстрактор / Зівник</li>
                         <li>Ліпгрип або підсак (силікон)</li>
-                        <li>Поляризаційні окуляри (важливо для Ужа)</li>
-                        <li>Запас гачків та чебурашок</li>
+                        <li>Поляризаційні окуляри</li>
+                        <li>Запас гачків та лідкорів</li>
                         <li>Спрей від комарів</li>
                     </ul>
                 </div>
@@ -554,51 +700,45 @@
 
     <main class="container">
         
+        
         <section class="reveal">
             <div class="section-header">
-                <h2 class="section-title">Гідрологія<br>& Моніторинг</h2>
-                <p class="section-subtitle">Оперативні дані про стан води. Оновлюється автоматично (демо).</p>
+                <h2 class="section-title">Моніторинг<br>Водойм</h2>
+                <p class="section-subtitle">Поточні показники на основних озерних локаціях (демо-дані).</p>
             </div>
 
             <div class="table-wrapper">
                 <table class="uzh-table">
                     <thead>
                         <tr>
-                            <th>Пост спостереження</th>
-                            <th>Рівень (см)</th>
-                            <th>Температура Water</th>
+                            <th>Локація</th>
+                            <th>Рівень води</th>
+                            <th>Температура</th>
                             <th>Прозорість</th>
                             <th>Статус <span class="neon-text">(LIVE)</span></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Уж (Великий Березний) - Верх</td>
-                            <td>+10 <span class="neon-text">↑</span></td>
-                            <td>11.2°C</td>
-                            <td>Середня</td>
-                            <td><span class="live-indicator"></span>Йде каламуть</td>
-                        </tr>
-                        <tr>
-                            <td>Уж (Підзамковий міст) - Центр</td>
+                            <td>Озеро Лагуна</td>
                             <td>Стабільно</td>
-                            <td>13.5°C</td>
-                            <td>Оптимальна</td>
-                            <td><span class="live-indicator"></span>Активний клень</td>
+                            <td>16.5°C</td>
+                            <td>Середня</td>
+                            <td><span class="live-indicator"></span>Активний лин</td>
                         </tr>
                         <tr>
-                            <td>Дериваційний канал (Оріховиця)</td>
-                            <td>-5 <span style="color: #e74c3c">↓</span></td>
-                            <td>14.0°C</td>
+                            <td>Озеро Великі Береги</td>
+                            <td>+5 см <span class="neon-text">↑</span></td>
+                            <td>15.2°C</td>
                             <td>Висока</td>
-                            <td><span class="live-indicator"></span>Кормиться карась</td>
+                            <td><span class="live-indicator"></span>Короп на мілині</td>
                         </tr>
                         <tr>
-                            <td>Радванський кар'єр (Глибина)</td>
-                            <td>N/A</td>
-                            <td>15.2°C (поверхня)</td>
-                            <td>Максимальна</td>
-                            <td><span class="live-indicator"></span>Щука в ямах</td>
+                            <td>Озеро Драгово</td>
+                            <td>-2 см <span style="color: #e74c3c">↓</span></td>
+                            <td>12.8°C</td>
+                            <td>Екстремальна</td>
+                            <td><span class="live-indicator"></span>Амур у ямах</td>
                         </tr>
                     </tbody>
                 </table>
@@ -607,8 +747,8 @@
 
         <section class="reveal">
             <div class="section-header">
-                <h2 class="section-title">Сезонний<br>Ритм</h2>
-                <p class="section-subtitle">Річний календар активності основних видів риб в басейні річки Уж.</p>
+                <h2 class="section-title">Сезонна<br>Активність</h2>
+                <p class="section-subtitle">Шкала кльову на озерах залежно від місяця.</p>
             </div>
 
             <div class="table-wrapper">
@@ -616,40 +756,26 @@
                     <thead>
                         <tr>
                             <th>Місяць</th>
-                            <th>Щука</th>
-                            <th>Клень</th>
                             <th>Короп</th>
-                            <th>Особливості місяця</th>
+                            <th>Лин</th>
+                            <th>Амур</th>
+                            <th>Особливості</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td>Березень</td>
-                            <td><div class="activity-bar"><div class="activity-fill" style="width: 80%"></div></div></td>
-                            <td><div class="activity-bar"><div class="activity-fill" style="width: 20%"></div></div></td>
-                            <td><div class="activity-bar"><div class="activity-fill" style="width: 10%"></div></div></td>
-                            <td>Переднерестовий жор щуки, паводок.</td>
+                            <td>Квітень</td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 70%"></div></div></td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 85%"></div></div></td>
+                            <td><div class="activity-bar"><div class="activity-fill" style="width: 40%"></div></div></td>
+                            <td>Початок прогріву води на мілководді.</td>
                         </tr>
                         <tr>
                             <td>Травень</td>
-                            <td><div class="activity-bar"><div class="activity-fill" style="width: 40%"></div></div></td>
                             <td><div class="activity-bar"><div class="activity-fill" style="width: 90%"></div></div></td>
                             <td><div class="activity-bar"><div class="activity-fill" style="width: 60%"></div></div></td>
-                            <td>Виліт хруща. Активний лов кленя на сплеск.</td>
-                        </tr>
-                        <tr>
-                            <td>Липень</td>
-                            <td><div class="activity-bar"><div class="activity-fill" style="width: 20%"></div></div></td>
-                            <td><div class="activity-bar"><div class="activity-fill" style="width: 70%"></div></div></td>
-                            <td><div class="activity-bar"><div class="activity-fill" style="width: 80%"></div></div></td>
-                            <td>Спека. Лов вночі або на світанку. Термоклин на кар'єрі.</td>
-                        </tr>
-                        <tr>
-                            <td>Жовтень</td>
                             <td><div class="activity-bar"><div class="activity-fill" style="width: 95%"></div></div></td>
-                            <td><div class="activity-bar"><div class="activity-fill" style="width: 50%"></div></div></td>
-                            <td><div class="activity-bar"><div class="activity-fill" style="width: 30%"></div></div></td>
-                            <td>Осінній жор хижака. Мирна риба скочується на ями.</td>
+                            <td>Пік активності амура на Драгово.</td>
                         </tr>
                     </tbody>
                 </table>
@@ -658,69 +784,141 @@
 
     </main>
 
+    <div id="fishingModal" class="modal">
+        <div class="modal-content glass-card">
+            <span class="close-modal">&times;</span>
+            <h2 id="modalTitle" class="neon-text"></h2>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
     <footer>
         <div class="container">
             <span class="footer-logo">UzhFish</span>
-            <p class="footer-credits">
-                &copy; 2026 UzhFish Digital. Strict Codebase v2.0.<br>
-                Тільки реальна риболовля. Жодного дайвінгу. Зроблено в Ужгороді.
-            </p>
         </div>
     </footer>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            
-            // 1. Reveal on Scroll (Intersection Observer)
-            const observerOptions = {
-                threshold: 0.15,
-                rootMargin: '0px 0px -100px 0px'
-            };
-
+            const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -100px 0px' };
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
+                    if (entry.isIntersecting) entry.target.classList.add('is-visible');
                 });
             }, observerOptions);
 
-            document.querySelectorAll('.reveal').forEach(el => {
-                observer.observe(el);
-            });
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-            // 2. Паралакс фонового підсвічування
             const parallaxBg = document.getElementById('parallaxBg');
             document.addEventListener('mousemove', (e) => {
                 const x = (e.clientX / window.innerWidth) - 0.5;
                 const y = (e.clientY / window.innerHeight) - 0.5;
-                
                 parallaxBg.style.transform = `translate(calc(-50% + ${x * 50}px), calc(-50% + ${y * 50}px))`;
             });
 
-            // 3. 3D Hover ефект для карток
             const cards = document.querySelectorAll('.tilt-card');
             cards.forEach(card => {
                 card.addEventListener('mousemove', (e) => {
+                    if (window.innerWidth < 768) return;
                     const rect = card.getBoundingClientRect();
                     const x = e.clientX - rect.left;
                     const y = e.clientY - rect.top;
-                    
                     const centerX = rect.width / 2;
                     const centerY = rect.height / 2;
-                    
                     const rotateX = (y - centerY) / 10;
                     const rotateY = (centerX - x) / 10;
-                    
                     card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-10px)`;
                 });
-                
                 card.addEventListener('mouseleave', () => {
                     card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0px)`;
                 });
             });
+
+            // Логіка модального вікна
+            const modal = document.getElementById("fishingModal");
+            const closeModal = document.querySelector(".close-modal");
+            const modalTitle = document.getElementById("modalTitle");
+            const modalBody = document.getElementById("modalBody");
+
+            // Розширена база даних
+            const lakeData = {
+                "Схеми закиду": {
+                    title: "Карта секторів: Лагуна",
+                    content: `
+                        <p style="margin-bottom: 15px; color: var(--text-muted);">Локація вимагає точкового закиду через густу рослинність.</p>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 15px; padding-left: 15px; border-left: 2px solid var(--neon-green);">
+                                <b style="color: var(--neon-green);">Сектор А (Північний берег):</b> Глибина 1.5-2м. Тверде дно, ідеально для поплавка. Клює лин зранку.
+                            </li>
+                            <li style="margin-bottom: 15px; padding-left: 15px; border-left: 2px solid var(--neon-green);">
+                                <b style="color: var(--neon-green);">Сектор Б (Біля пірса):</b> Перепад глибин до 3м. Багато корчів, ризик зачепу, але тут стоїть великий лящ.
+                            </li>
+                            <li style="margin-bottom: 15px; padding-left: 15px; border-left: 2px solid #e74c3c;">
+                                <b style="color: #e74c3c;">Обережно:</b> Уникайте західної затоки, там суцільний мул (до 40 см), оснастка просто потоне.
+                            </li>
+                        </ul>
+                    `
+                },
+                "Батиметрія (Глибини)": {
+                    title: "Рельєф дна: Великі Береги",
+                    content: `
+                        <div style="display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid var(--glass-border); padding-bottom: 10px;">
+                            <span>Макс. глибина: <b style="color: var(--neon-green);">12.4 м</b></span>
+                            <span>Дно: <b style="color: var(--text-main);">Пісок/Ракушняк</b></span>
+                        </div>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 15px; padding-left: 15px; border-left: 2px solid var(--neon-green);">
+                                <b style="color: var(--neon-green);">Перша бровка (25-30м):</b> Спад з 2 на 4 метри. Відмінна точка для нічного лову середнього коропа.
+                            </li>
+                            <li style="margin-bottom: 15px; padding-left: 15px; border-left: 2px solid var(--neon-green);">
+                                <b style="color: var(--neon-green);">Руслове плато (60-70м):</b> Стабільна глибина 7м. Місце харчування трофейних екземплярів.
+                            </li>
+                            <li style="margin-bottom: 15px; padding-left: 15px; border-left: 2px solid var(--neon-green);">
+                                <b style="color: var(--neon-green);">Зимова яма (100м+):</b> Глибина понад 12 метрів. Влітку там утворюється термоклин, риби немає.
+                            </li>
+                        </ul>
+                    `
+                },
+                "Рецепт прикормки": {
+                    title: "Секретний мікс: Драгово",
+                    content: `
+                        <p style="margin-bottom: 15px; color: var(--text-muted);">Білий амур на цій водоймі ігнорує солодкі бойли. Спробуй цей мікс:</p>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 10px; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
+                                <span>Ферментована кукурудза (п'яна)</span> <b style="color: var(--neon-green);">3 кг</b>
+                            </li>
+                            <li style="margin-bottom: 10px; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
+                                <span>Пелетс (Люцерна/Трава)</span> <b style="color: var(--neon-green);">1 кг</b>
+                            </li>
+                            <li style="margin-bottom: 10px; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
+                                <span>Варена конопля</span> <b style="color: var(--neon-green);">500 г</b>
+                            </li>
+                            <li style="margin-bottom: 10px; display: flex; justify-content: space-between; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 5px;">
+                                <span>Сироп (Слива або Часник)</span> <b style="color: var(--neon-green);">150 мл</b>
+                            </li>
+                        </ul>
+                        <p style="margin-top: 15px; font-size: 0.85rem; color: #e74c3c;">* Загодовувати точку потрібно масовано, від 5 кг зі старту.</p>
+                    `
+                }
+            };
+
+            document.querySelectorAll('.btn-action').forEach(button => {
+                button.onclick = function() {
+                    // Використовуємо textContent замість innerText для ігнорування text-transform: uppercase
+                    const type = this.textContent.replace(/[📍📡🌿]/g, '').trim(); 
+                    if (lakeData[type]) {
+                        modalTitle.innerText = lakeData[type].title;
+                        modalBody.innerHTML = lakeData[type].content;
+                        modal.style.display = "flex";
+                    }
+                }
+            });
+
+            closeModal.onclick = () => modal.style.display = "none";
+            window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; }
         });
     </script>
 
+    
 </body>
 </html>
